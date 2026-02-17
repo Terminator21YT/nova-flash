@@ -506,81 +506,80 @@
       </div>
     </section>
 
-        <!-- KONTAKT -->
-    <section id="kontakt">
-      <h2>Kontakt & Termin</h2>
-      <p class="section-sub">
-        Schick mir eine kurze Anfrage mit deinem Gerät und deinem Wunsch. Ich melde mich normalerweise
-        noch am selben Tag mit einem Vorschlag.
+<!-- KONTAKT -->
+<section id="kontakt">
+  <h2>Kontakt & Termin</h2>
+  <p class="section-sub">
+    Schick mir eine kurze Anfrage mit deinem Gerät und deinem Wunsch. Ich melde mich normalerweise
+    noch am selben Tag mit einem Vorschlag.
+  </p>
+
+  <div class="two-col">
+    <!-- Linke Seite: Formular -->
+    <div class="card contact-card">
+      <div class="card-title" style="margin-bottom:4px;">Anfrage stellen</div>
+      <p class="card-tagline" style="margin-bottom:12px;">
+        Je genauer deine Angaben, desto schneller kann ich dir einen Preis und Ablauf nennen.
       </p>
 
-      <div class="two-col">
-        <!-- Linke Seite: schicke Card mit Formular -->
-        <div class="card" style="padding:16px 16px 18px;">
-          <div class="card-title" style="margin-bottom:8px;">Anfrage stellen</div>
-          <p class="card-tagline" style="margin-bottom:10px;">
-            Je genauer deine Angaben, desto schneller kann ich dir einen Preis und Ablauf nennen.
-          </p>
+      <form action="mailto:novaflash@nova-corp.de"
+            method="post"
+            enctype="text/plain">
 
-          <form action="mailto:novaflash@nova-corp.de"
-                method="post"
-                enctype="text/plain">
-
-            <div class="field">
-              <label for="name">Dein Name*</label>
-              <input type="text" id="name" name="Name" required>
-            </div>
-
-            <div class="field">
-              <label for="email">Deine E-Mail-Adresse*</label>
-              <input type="email" id="email" name="Email" required>
-            </div>
-
-            <div class="field">
-              <label for="phone">Deine Telefonnummer (optional)</label>
-              <input type="tel" id="phone" name="Telefon">
-            </div>
-
-            <div class="field">
-              <label for="device">Gerät / Modell</label>
-              <input type="text" id="device" name="Geraet" placeholder="z.B. Google Pixel 6, 128 GB">
-            </div>
-
-            <div class="field">
-              <label for="message">Nachricht*</label>
-              <textarea id="message" name="Nachricht" rows="4" required
-                placeholder="Was soll gemacht werden? Stock‑Firmware, Custom‑ROM, bestimmtes Projekt etc."></textarea>
-            </div>
-
-            <div class="legal-box" style="margin-top:10px;">
-              Die mit * markierten Felder sind Pflichtfelder. Deine Angaben werden ausschließlich zur
-              Bearbeitung deiner Anfrage verwendet. Details findest du in der Datenschutzerklärung.
-            </div>
-
-            <button type="submit" class="btn-primary" style="margin-top:12px;">
-              Nachricht senden
-            </button>
-          </form>
+        <div class="field">
+          <label for="name">Dein Name*</label>
+          <input type="text" id="name" name="Name" required>
         </div>
 
-        <!-- Rechte Seite: Kontaktinfos / Ort -->
-        <div class="card">
-          <div class="card-title">Direkter Kontakt</div>
-          <p class="card-tagline">
-            Wenn es schnell gehen soll oder du dir unsicher bist, welches Paket passt.
-          </p>
-          <ul class="check-list">
-            <li>E-Mail: <a href="mailto:novaflash@nova-corp.de">novaflash@nova-corp.de</a></li>
-            <li>Telefon / WhatsApp: <a href="tel:+491759430897">+49&nbsp;175&nbsp;9430897</a></li>
-            <li>Standort: 50767 Köln (Bring‑In nach Absprache möglich)</li>
-          </ul>
-          <p style="font-size:.78rem;color:var(--muted);margin-top:10px;">
-            Bitte sichere deine Daten vor jedem Auftrag. Es wird keine Haftung für Datenverlust übernommen.
-          </p>
+        <div class="field">
+          <label for="email">Deine E-Mail-Adresse*</label>
+          <input type="email" id="email" name="Email" required>
         </div>
-      </div>
-    </section>
 
+        <div class="field">
+          <label for="phone">Deine Telefonnummer (optional)</label>
+          <input type="tel" id="phone" name="Telefon">
+        </div>
+
+        <div class="field">
+          <label for="device">Gerät / Modell</label>
+          <input type="text" id="device" name="Geraet" placeholder="z.B. Google Pixel 6, 128 GB">
+        </div>
+
+        <div class="field">
+          <label for="message">Nachricht*</label>
+          <textarea id="message" name="Nachricht" rows="4" required
+            placeholder="Was soll gemacht werden? Stock‑Firmware, Custom‑ROM, bestimmtes Projekt etc."></textarea>
+        </div>
+
+        <div class="legal-box" style="margin-top:8px;">
+          Die mit * markierten Felder sind Pflichtfelder. Deine Angaben werden ausschließlich zur
+          Bearbeitung deiner Anfrage verwendet. Details findest du in der Datenschutzerklärung.
+        </div>
+
+        <button type="submit" class="btn-primary" style="margin-top:12px;width:100%;justify-content:center;">
+          Nachricht senden
+        </button>
+      </form>
+    </div>
+
+    <!-- Rechte Seite: Kontaktinfos / Ort -->
+    <div class="card">
+      <div class="card-title">Direkter Kontakt</div>
+      <p class="card-tagline">
+        Wenn es schnell gehen soll oder du dir unsicher bist, welches Paket passt.
+      </p>
+      <ul class="check-list">
+        <li>E-Mail: <a href="mailto:novaflash@nova-corp.de">novaflash@nova-corp.de</a></li>
+        <li>Telefon / WhatsApp: <a href="tel:+491759430897">+49&nbsp;175&nbsp;9430897</a></li>
+        <li>Standort: 50767 Köln (Bring‑In nach Absprache möglich)</li>
+      </ul>
+      <p style="font-size:.78rem;color:var(--muted);margin-top:10px;">
+        Bitte sichere deine Daten vor jedem Auftrag. Es wird keine Haftung für Datenverlust übernommen.
+      </p>
+    </div>
+  </div>
+</section>
 
           </p>
         </div>
@@ -599,6 +598,7 @@
   </footer>
 </body>
 </html>
+
 
 
 
