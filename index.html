@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Nova Flash – System Flash & Custom ROM Service</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Nova Flash von Nova Corp: System-Flash & Custom-ROM-Service für Android-Smartphones – Einschicken oder vor Ort. Stock-ROM, Custom-ROM, Performance-Tuning.">
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #050816;
+      --primary: #6366f1;
+      --primary-soft: rgba(99,102,241,0.15);
+      --accent: #22c55e;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --danger: #f97373;
+      --card-radius: 14px;
+      --max-width: 960px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background: radial-gradient(circle at top,#111827 0,#020617 50%,#000 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    header {
+      border-bottom: 1px solid rgba(148,163,184,0.25);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(to bottom,rgba(15,23,42,0.92),rgba(15,23,42,0.75));
+    }
+    .nav {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .logo {
+      font-weight: 700;
+      letter-spacing: .03em;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .logo-dot {
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%,#a5b4fc,#4f46e5);
+      box-shadow: 0 0 14px rgba(79,70,229,0.8);
+    }
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      font-size: .9rem;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: var(--muted);
+      padding: 6px 0;
+      white-space: nowrap;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: linear-gradient(135deg,#4f46e5,#22c55e);
+      color: white;
+      font-weight: 600;
+      font-size: .9rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 12px 26px rgba(15,23,42,0.7);
+      transform: translateY(0);
+      transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 32px rgba(15,23,42,0.9);
+      filter: brightness(1.05);
+      text-decoration: none;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.4);
+      color: var(--muted);
+      font-size: .85rem;
+      background: rgba(15,23,42,0.7);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    main {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 32px 16px 48px;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0,1.5fr) minmax(0,1.2fr);
+      gap: 32px;
+      align-items: center;
+      padding: 28px 20px;
+      border-radius: 24px;
+      background: radial-gradient(circle at top left,rgba(79,70,229,0.22),transparent 55%),
+                  radial-gradient(circle at bottom right,rgba(34,197,94,0.16),transparent 50%),
+                  linear-gradient(145deg,#020617,#020617 55%,#030712);
+      border: 1px solid rgba(148,163,184,0.28);
+      box-shadow: 0 24px 80px rgba(15,23,42,0.95);
+    }
+    .hero-kicker {
+      font-size: .8rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .hero-title {
+      font-size: clamp(1.9rem,3vw,2.4rem);
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg,#a5b4fc,#4f46e5,#22c55e);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .hero-sub {
+      font-size: .95rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 18px;
+    }
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.35);
+      font-size: .75rem;
+      color: var(--muted);
+      background: rgba(15,23,42,0.8);
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .hero-note {
+      font-size: .8rem;
+      color: var(--muted);
+    }
+    .hero-note strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .hero-card {
+      border-radius: 20px;
+      padding: 18px;
+      background: radial-gradient(circle at top,rgba(15,23,42,0.9),rgba(15,23,42,0.98));
+      border: 1px solid rgba(148,163,184,0.45);
+      box-shadow: 0 20px 50px rgba(15,23,42,1);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .hero-card-title {
+      font-size: .9rem;
+      color: var(--muted);
+    }
+    .hero-price {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    .hero-price span {
+      font-size: .8rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .hero-specs {
+      display: grid;
+      grid-template-columns: repeat(2,minmax(0,1fr));
+      gap: 10px;
+      font-size: .8rem;
+    }
+    .hero-specs div {
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(148,163,184,0.35);
+      color: var(--muted);
+    }
+    .hero-specs strong {
+      display: block;
+      font-size: .8rem;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .hero-foot {
+      font-size: .75rem;
+      color: var(--muted);
+    }
+    section { margin-top: 40px; }
+    h2 { font-size: 1.3rem; margin-bottom: 12px; }
+    .section-sub {
+      font-size: .9rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--bg-alt);
+      border-radius: var(--card-radius);
+      border: 1px solid rgba(148,163,184,0.4);
+      padding: 14px 14px 16px;
+      font-size: .88rem;
+      box-shadow: 0 10px 36px rgba(15,23,42,0.85);
+    }
+    .card-title { font-weight: 600; margin-bottom: 6px; }
+    .card-tagline { font-size: .78rem; color: var(--muted); margin-bottom: 4px; }
+    ul { list-style: none; padding-left: 0; }
+    .check-list li::before {
+      content: "✔";
+      color: var(--accent);
+      margin-right: 6px;
+      font-size: .8rem;
+    }
+    .check-list li {
+      margin-bottom: 4px;
+      font-size: .86rem;
+      color: var(--muted);
+    }
+    .warning {
+      border-left: 3px solid var(--danger);
+      padding: 8px 10px;
+      background: rgba(127,29,29,0.25);
+      border-radius: 10px;
+      font-size: .8rem;
+      color: #fecaca;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0,1.3fr) minmax(0,1fr);
+      gap: 18px;
+      align-items: flex-start;
+    }
+    .field { margin-bottom: 10px; }
+    .field label {
+      display: block;
+      font-size: .8rem;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+    .field input,
+    .field textarea {
+      width: 100%;
+      padding: 7px 9px;
+      border-radius: 8px;
+      border: 1px solid rgba(148,163,184,0.5);
+      background: rgba(15,23,42,0.85);
+      color: var(--text);
+      font-size: .85rem;
+    }
+    .field textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .legal-box {
+      border-radius: var(--card-radius);
+      border: 1px dashed rgba(248,250,252,0.2);
+      padding: 10px 12px;
+      font-size: .78rem;
+      color: var(--muted);
+      background: rgba(15,23,42,0.75);
+    }
+    footer {
+      border-top: 1px solid rgba(30,64,175,0.5);
+      margin-top: 30px;
+    }
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 16px;
+      font-size: .78rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+    }
+    .footer-inner a { color: var(--muted); }
+    .footer-inner a:hover { color: var(--text); }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: minmax(0,1fr); }
+      .two-col { grid-template-columns: minmax(0,1fr); }
+    }
+    @media (max-width: 768px) {
+      main { padding: 24px 14px 36px; }
+      .hero { padding: 20px 16px; }
+      .grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .nav-links { display: none; } /* Mobile: nur Call-to-Action rechts */
+    }
+    @media (max-width: 520px) {
+      .grid { grid-template-columns: minmax(0,1fr); }
+      .hero-specs { grid-template-columns: minmax(0,1fr); }
+      .logo { font-size: .95rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="logo">
+        <div class="logo-dot"></div>
+        <span>Nova Corp • Nova Flash</span>
+      </div>
+      <div class="nav-links">
+        <a href="#leistungen">Leistungen</a>
+        <a href="#ablauf">Ablauf</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </div>
+      <a href="#kontakt" class="btn-outline">Termin anfragen</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <div class="hero-kicker">Android System Flash • Nova Flash</div>
+        <h1 class="hero-title">
+          Bring your old device<br>
+          <span>to the future.</span>
+        </h1>
+        <p class="hero-sub">
+          Unter der Marke Nova Corp bieten wir professionelles System‑Flashing für Android‑Smartphones:
+          aktuelle Stock‑Firmware oder stabile Custom‑ROMs – Einschicken oder vor Ort in Köln.
+        </p>
+        <div class="hero-badges">
+          <div class="badge">Einschicken oder vor Ort</div>
+          <div class="badge">Stock &amp; Custom ROMs</div>
+          <div class="badge">Transparente Festpreise</div>
+        </div>
+        <div class="hero-actions">
+          <a href="#kontakt" class="btn-primary">Jetzt Termin anfragen</a>
+          <a href="#leistungen" class="btn-outline">Leistungen ansehen</a>
+        </div>
+        <p class="hero-note">
+          <strong>Hinweis:</strong> Keine Umgehung von Diebstahlschutz oder Accountsperren.
+        </p>
+      </div>
+
+      <aside class="hero-card">
+        <div class="hero-card-header">
+          <div>
+            <div class="hero-card-title">Beispiel‑Paket</div>
+            <div style="font-size:.78rem;color:var(--muted);">
+              Custom‑ROM Installation inkl. Bootloader‑Unlock*
+            </div>
+          </div>
+          <div class="hero-price">
+            ab 49&nbsp;€ <span>pro Gerät</span>
+          </div>
+        </div>
+        <div class="hero-specs">
+          <div>
+            <strong>Stock‑Firmware Refresh</strong>
+            Neuinstallation der offiziellen Hersteller‑Software für Stabilität &amp; Performance.
+          </div>
+          <div>
+            <strong>Custom ROM Service</strong>
+            Installation stabiler ROMs wie LineageOS/Pixel Experience (falls verfügbar).
+          </div>
+          <div>
+            <strong>Bring‑In &amp; Versand</strong>
+            Du kannst dein Gerät einschicken oder nach Termin vor Ort in Köln vorbeibringen.
+          </div>
+          <div>
+            <strong>Transparente Doku</strong>
+            Protokoll mit installierter Version &amp; Hinweisen zu bekannten Einschränkungen.
+          </div>
+        </div>
+        <div class="hero-foot">
+          * Bootloader‑Unlock nur, wenn vom Hersteller vorgesehen und im Rahmen der Nutzungsbedingungen möglich.
+        </div>
+      </aside>
+    </section>
+
+    <!-- LEISTUNGEN -->
+    <section id="leistungen">
+      <h2>Leistungen & Pakete</h2>
+      <p class="section-sub">
+        Fokus auf Android‑Geräte mit guter ROM‑Unterstützung (z.&nbsp;B. Samsung, Google Pixel, Xiaomi).
+        Alle Preise sind Beispielpreise – genaue Kosten hängen vom Modell, Aufwand und Versand ab.
+      </p>
+      <div class="grid">
+        <div class="card">
+          <div class="card-title">Stock‑Firmware Refresh</div>
+          <div class="card-tagline">ab 39&nbsp;€</div>
+          <ul class="check-list">
+            <li>Neuinstallation der aktuellen offiziellen Firmware</li>
+            <li>Ideal bei Bugs, Boot‑Loops oder massiven Performance‑Problemen</li>
+            <li>Kein Root, keine Custom‑ROM – möglichst nah am Originalzustand</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Custom‑ROM Installation</div>
+          <div class="card-tagline">ab 49&nbsp;€</div>
+          <ul class="check-list">
+            <li>Installation stabiler Custom‑ROMs (z.&nbsp;B. LineageOS, Pixel Experience)</li>
+            <li>Bootloader‑Unlock &amp; Custom Recovery Einrichtung</li>
+            <li>Optional mit/ohne Google‑Dienste (GApps)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Performance &amp; Entbloat</div>
+          <div class="card-tagline">ab 29&nbsp;€</div>
+          <ul class="check-list">
+            <li>Deaktivieren unnötiger Hersteller‑Apps</li>
+            <li>Optimierungen für Akku, Performance und Datenschutz</li>
+            <li>Nur in Kombination mit Flash‑Service buchbar</li>
+          </ul>
+        </div>
+      </div>
+      <p class="warning" style="margin-top:12px;">
+        Wichtiger Hinweis: Installation von Custom‑ROMs kann Herstellergarantie beeinflussen.
+        Vor jedem Auftrag muss ein Haftungsausschluss unterschrieben werden.
+      </p>
+    </section>
+
+    <!-- ABLAUF -->
+    <section id="ablauf">
+      <h2>So läuft ein System‑Flash ab</h2>
+      <p class="section-sub">
+        Klarer Ablauf, egal ob du dein Gerät einschickst oder vor Ort vorbeikommst.
+      </p>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">1. Anfrage & Geräte‑Check</div>
+          <ul class="check-list">
+            <li>Du schickst Modell, aktuelle Version und deinen Wunsch (Stock / Custom‑ROM).</li>
+            <li>Ich prüfe, ob es eine stabile und vertrauenswürdige ROM/Firmware für dein Gerät gibt.</li>
+          </ul>
+          <div class="card-title" style="margin-top:10px;">2. Versand oder Vor Ort</div>
+          <ul class="check-list">
+            <li>Du kannst dein Gerät sicher verpackt einschicken oder nach Termin in Köln vorbeibringen.</li>
+            <li>Du bestätigst schriftlich Eigentum am Gerät und dass du deine Daten gesichert hast.</li>
+          </ul>
+          <div class="card-title" style="margin-top:10px;">3. Flash & Tests</div>
+          <ul class="check-list">
+            <li>Bootloader‑Unlock (falls nötig), Recovery, ROM &amp; ggf. GApps werden sauber installiert.</li>
+            <li>Basis‑Tests: Boot, Mobilfunk, WLAN, Kamera, Play Store (falls vorhanden).</li>
+          </ul>
+          <div class="card-title" style="margin-top:10px;">4. Rückversand & Übergabe</div>
+          <ul class="check-list">
+            <li>Du bekommst eine Übersicht: installierte Version, bekannte Einschränkungen, ROM‑Link.</li>
+            <li>Rückversand mit Tracking oder Übergabe vor Ort nach Absprache.</li>
+          </ul>
+        </div>
+        <div class="legal-box">
+          <strong>Rechtliche Hinweise (Kurzfassung)</strong><br><br>
+          • Custom‑ROMs stammen in der Regel von unabhängigen Community‑Projekten, nicht vom Geräte‑Hersteller.<br>
+          • Herstellergarantie kann bei entsperrtem Bootloader, Root oder Custom‑ROM eingeschränkt sein.<br>
+          • Es wird keine Haftung für Datenverlust übernommen – bitte sichere deine Daten vor dem Auftrag.<br>
+          • Es werden keine Sicherheitsmechanismen (Diebstahlschutz, Google‑Account‑Sperren, SIM‑Lock etc.) umgangen.<br><br>
+          Die vollständigen Bedingungen findest du im Auftragsformular sowie im Impressum/der Datenschutzerklärung.
+        </div>
+      </div>
+    </section>
+
+    <!-- KONTAKT -->
+    <section id="kontakt">
+      <h2>Kontakt & Termin</h2>
+      <p class="section-sub">
+        Schick mir eine kurze Anfrage mit deinem Gerät und deinem Wunsch. Ich melde mich normalerweise
+        noch am selben Tag mit einem Vorschlag.
+      </p>
+      <div class="two-col">
+        <form class="card">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" type="text" placeholder="Dein Name">
+          </div>
+          <div class="field">
+            <label for="mail">E‑Mail oder Messenger</label>
+            <input id="mail" type="text" placeholder="E‑Mail, Telegram, Discord o.Ä.">
+          </div>
+          <div class="field">
+            <label for="device">Gerät & Modell</label>
+            <input id="device" type="text" placeholder="z.B. Samsung Galaxy S21, 128 GB">
+          </div>
+          <div class="field">
+            <label for="wish">Wunsch & Probleme</label>
+            <textarea id="wish" placeholder="Was soll gemacht werden? Z.B. LineageOS installieren, Gerät sehr langsam, Bootloop, ..."></textarea>
+          </div>
+          <button type="submit" class="btn-primary" disabled>Unverbindlich anfragen (Demo)</button>
+          <p style="font-size:.75rem;color:var(--muted);margin-top:6px;">
+            Das Formular ist aktuell nur eine Demo. Ersetze es durch dein eigenes Kontakt‑Setup
+            (Mail, WhatsApp, Discord, Ticket‑System usw.).
+          </p>
+        </form>
+        <div class="card">
+          <div class="card-title">Direkter Kontakt</div>
+          <ul class="check-list">
+            <li>Köln & Umgebung – Bring‑In Service nach Termin</li>
+            <li>Deutschlandweit per Versand (sicher verpackt und mit Tracking)</li>
+            <li>Bevorzugte Kontaktwege: E‑Mail, Messenger, Discord</li>
+          </ul>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:10px;">
+            Trage hier später deine echten Nova‑Kontaktdaten ein (E‑Mail, Telefonnummer, Socials).
+            Vergiss nicht ein rechtskonformes Impressum und eine Datenschutzerklärung zu erstellen.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>© 2026 Nova Corp – Nova Flash</span>
+      <span>
+        <a href="impressum.html">Impressum</a> •
+        <a href="datenschutz.html">Datenschutz</a>
+      </span>
+    </div>
+  </footer>
+</body>
+</html>
