@@ -510,43 +510,58 @@
     <section id="kontakt">
       <h2>Kontakt & Termin</h2>
       <p class="section-sub">
-        Schick mir eine kurze Anfrage mit deinem Gerät und deinem Wunsch. Ich melde mich normalerweise
+        Schick uns eine kurze Anfrage mit deinem Gerät und deinem Wunsch. Ich melde mich normalerweise
         noch am selben Tag mit einem Vorschlag.
       </p>
-      <div class="two-col">
-        <form class="card">
-          <div class="field">
-            <label for="name">Name</label>
-            <input id="name" type="text" placeholder="Dein Name">
-          </div>
-          <div class="field">
-            <label for="mail">E‑Mail oder Messenger</label>
-            <input id="mail" type="text" placeholder="E‑Mail, Telegram, Discord o.Ä.">
-          </div>
-          <div class="field">
-            <label for="device">Gerät & Modell</label>
-            <input id="device" type="text" placeholder="z.B. Samsung Galaxy S21, 128 GB">
-          </div>
-          <div class="field">
-            <label for="wish">Wunsch & Probleme</label>
-            <textarea id="wish" placeholder="Was soll gemacht werden? Z.B. LineageOS installieren, Gerät sehr langsam, Bootloop, ..."></textarea>
-          </div>
-          <button type="submit" class="btn-primary" disabled>Unverbindlich anfragen (Demo)</button>
-          <p style="font-size:.75rem;color:var(--muted);margin-top:6px;">
-            Das Formular ist aktuell nur eine Demo. Ersetze es durch dein eigenes Kontakt‑Setup
-            (Mail, WhatsApp, Discord, Ticket‑System usw.).
-          </p>
-        </form>
-        <div class="card">
-          <div class="card-title">Direkter Kontakt</div>
-          <ul class="check-list">
-            <li>Köln & Umgebung – Bring‑In Service nach Termin</li>
-            <li>Deutschlandweit per Versand (sicher verpackt und mit Tracking)</li>
-            <li>Bevorzugte Kontaktwege: E‑Mail, Messenger, Discord</li>
-          </ul>
-          <p style="font-size:.8rem;color:var(--muted);margin-top:10px;">
-            Trage hier später deine echten Nova‑Kontaktdaten ein (E‑Mail, Telefonnummer, Socials).
-            Vergiss nicht ein rechtskonformes Impressum und eine Datenschutzerklärung zu erstellen.
+<section id="contact" class="section">
+  <div class="section-inner">
+    <h2>Kontakt</h2>
+    <p>Schreib uns eine Nachricht, wenn du Fragen zu einem Gerät oder einem Flash‑Auftrag hast.</p>
+
+    <form action="mailto:novaflash@nova-corp.de"
+          method="post"
+          enctype="text/plain"
+          class="contact-form">
+      
+      <!-- Dein Name -->
+      <label for="name">Dein Name*</label>
+      <input type="text" id="name" name="Name" required>
+
+      <!-- Deine E-Mail (Pflicht, weil Antwortweg) -->
+      <label for="email">Deine E-Mail-Adresse*</label>
+      <input type="email" id="email" name="Email" required>
+
+      <!-- Deine Telefonnummer (optional) -->
+      <label for="phone">Deine Telefonnummer (optional)</label>
+      <input type="tel" id="phone" name="Telefon">
+
+      <!-- Gerät / Modell -->
+      <label for="device">Gerät / Modell</label>
+      <input type="text" id="device" name="Geraet">
+
+      <!-- Nachricht -->
+      <label for="message">Nachricht*</label>
+      <textarea id="message" name="Nachricht" rows="5" required></textarea>
+
+      <!-- Kleiner Datenschutz-Hinweis zum Formular -->
+      <p class="form-hint">
+        Die mit * markierten Felder sind Pflichtfelder. 
+        Deine Angaben werden nur zur Bearbeitung deiner Anfrage genutzt.
+      </p>
+
+      <button type="submit">Nachricht senden</button>
+    </form>
+
+    <div class="contact-meta">
+      <p><strong>Direkter Kontakt:</strong></p>
+      <p>
+        E-Mail: <a href="mailto:novaflash@nova-corp.de">novaflash@nova-corp.de</a><br>
+        Telefon: <a href="tel:+491759430897">+49 175 9430897</a>
+      </p>
+    </div>
+  </div>
+</section>
+
           </p>
         </div>
       </div>
@@ -564,4 +579,5 @@
   </footer>
 </body>
 </html>
+
 
